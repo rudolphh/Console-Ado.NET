@@ -22,7 +22,15 @@ namespace ConsoleDemo
                         {
                             bc.BatchSize = 10000;
                             bc.NotifyAfter = 5000;// raise SqlRowsCopied Event after 5000 records
-                            bc.SqlRowsCopied += new SqlRowsCopiedEventHandler(bc_SqlRowsCopied);
+
+                            //bc.SqlRowsCopied += new SqlRowsCopiedEventHandler(bc_SqlRowsCopied);
+                            //bc.SqlRowsCopied += bc_SqlRowsCopied;
+
+                            bc.SqlRowsCopied += (sender, eventArgs) =>
+                            {
+                                Console.WriteLine(eventArgs.RowsCopied + " loaded....");
+                            };
+
                             bc.DestinationTableName = "Products_Destination";
                             destinationConn.Open();
                             bc.WriteToServer(rdr);
